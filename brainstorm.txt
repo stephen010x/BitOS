@@ -1,0 +1,29 @@
+
+
+First of all, please for the love of god do not write your own drivers.
+I mean, I guess you can really. Writing drivers is probably not that bad of an idea
+Especially if they aren't hard to write.
+However, don't restrict yourself. There are universal driver standards you could implement
+That would allow you to add a bunch of other people's drivers yourself.
+
+
+qemu-system-x86_64 -hda bootloader.raw
+
+
+
+qemu-system-x86_64 -hda your_raw_file_name -s -S
+
+
+gdb your_raw_file_name
+target remote localhost:1234
+
+
+
+Reference for bochsrc
+https://bochs.sourceforge.io/doc/docbook/user/bochsrc.html
+
+
+
+# flash to usb
+lsblk
+sudo dd if=bootloader.raw of=/dev/sdX status=progress && sync

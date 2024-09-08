@@ -1,0 +1,9 @@
+display_library: x, options="gui_debug"
+
+romimage: file=/usr/share/bochs/BIOS-bochs-legacy, options=fastboot
+
+#1.2M  5.25" media:
+#  floppya: 1_2=~/git/BitOS/bootloader.raw, status=inserted
+
+ata0-master: type=disk, path="bootloader.raw"
+boot: disk
