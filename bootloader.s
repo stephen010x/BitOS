@@ -10,6 +10,10 @@
 ; 		https://grandidierite.github.io/bios-interrupts/
 
 
+; solution to booting on dell with usb
+;	https://forum.osdev.org/viewtopic.php?t=29237
+
+
 ; replace with a struct when ready
 macro PartitionEntry {
 			rb 16
@@ -46,49 +50,19 @@ macro padd start, n {
 	end if
 }
 
-;macro
-;
-;end macro
+struct BPB
 
 
 format binary
 use16
 
-					; should start at 0x0000
-
 org 0x7c00
-					; enforce CS:IP to be 0x0000:0x7c00
+					; enforce CS:IP to be 0x0000:0x7cxx
 
-mbrstart:	jmp  bootentry
+mbrstart:	jmp  far 0x0000:bootentry	; jmp far might not exist on classic 8086
 
-	; issues with booting on real hardware occur without this
-    ; Configuration for a 2.88MB floppy using FAT 12
-if 0
-offset 0x0003
-OEMname:            db      "MYBOOT"
-offset 0x000B
-bytesPerSector:     dw       512
-sectPerCluster:     db       1
-reservedSectors:    dw       1
-numFAT:             db       2
-numRootDirEntries:  dw       240
-numSectors:         dw       5760
-mediaType:          db       0xf0
-numFATsectors:      dw       9
-sectorsPerTrack:    dw       36
-numHeads:           dw       2
-numHiddenSectors:   dd       0
-numSectorsHuge:     dd       0
-driveNum:           db       0
-reserved:           db       0x00
-signature:          db       0x29
-volumeID:           dd       0x54428E71
-volumeLabel:        db      "NO NAME"
-padd volumeLabel, 11
-fileSysType:        db      "FAT12"
-padd fileSysType, 8
-end if
-
+	; issues with booting on real hardware occur without BPB
+	; replace this with a struct
 	offset 0x0003
     ; Dos 4.0 EBPB 1.44MB floppy
     OEMname:           db    "mkfs.fat"  ; mkfs.fat is what OEMname mkdosfs uses
@@ -108,11 +82,12 @@ end if
     reserved:          db    0
     signature:         db    0x29
     volumeID:          dd    0x2d7e5a1a
-    volumeLabel:       db    "NO NAME    "
-    fileSysType:       db    "FAT12   "
+    volumeLabel:       db    "NO NAME"
+    padd volumeLabel, 11
+    fileSysType:       db    "FAT12"
+    padd fileSysType, 8
 
-bootentry:	jmp far 0x0000:$+5
-			xor  ax,ax
+bootentry:	xor  ax,ax
 	        mov  ds,ax
 	        mov  es,ax
 	        mov  ss,ax
@@ -129,7 +104,8 @@ bootentry:	jmp far 0x0000:$+5
 
 ;i=0
 ;rept 7 {
-printloop:	mov  ah, 02h
+printloop:	cli
+			mov  ah, 02h
 			mov  dl, byte [cursorx]
 			xor  dh, dh
 					; set cursor position

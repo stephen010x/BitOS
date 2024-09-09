@@ -23,7 +23,31 @@ Reference for bochsrc
 https://bochs.sourceforge.io/doc/docbook/user/bochsrc.html
 
 
+Bootloader reference
+https://github.com/rhboot/grub2/blob/fedora-39/grub-core/boot/i386/pc/boot.S
+
+
 
 # flash to usb
 lsblk
 sudo dd if=bootloader.raw of=/dev/sdX status=progress && sync
+
+
+
+
+https://github.com/rhboot/grub2/blob/fedora-39/grub-core/boot/i386/pc/boot.S | grub2/grub-core/boot/i386/pc/boot.S at fedora-39 · rhboot/grub2
+https://forum.osdev.org/viewtopic.php?t=29237 | Booting from USB drive (SOLVED) - OSDev.org
+https://en.wikipedia.org/wiki/Master_boot_record | Master boot record - Wikipedia
+https://en.wikipedia.org/wiki/Master_boot_record#PTE | Master boot record - Wikipedia
+https://www.google.com/search?client=firefox-b-1-d&q=formula+to+convert+lba+to+chs | formula to convert lba to chs - Google Search
+https://flatassembler.net/docs.php?article=manual | flat assembler
+https://flatassembler.net/docs.php?article=manual#2.3.4 | flat assembler
+https://flatassembler.net/docs.php?article=manual#2.2.4 | flat assembler
+https://flatassembler.net/docs.php?article=manual#2.3.3 | flat assembler
+https://www.google.com/search?client=firefox-b-1-d&q=fasm+function+macro | fasm function macro - Google Search
+https://en.wikipedia.org/wiki/BIOS_parameter_block | BIOS parameter block - Wikipedia
+http://jdebp.info/FGA/bios-parameter-block.html | FGA: All about BIOS parameter blocks
+https://en.wikipedia.org/wiki/Volume_boot_record | Volume boot record - Wikipedia
+https://www.google.com/search?client=firefox-b-1-d&q=x86+retf | x86 retf - Google Search
+
+
