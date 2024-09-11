@@ -1,4 +1,22 @@
 
+Notes for self:
+
+Use FASM+GCC
+
+Compile into .raw image and then dd it to a usb drive
+
+Use legacy boot (MBR Master Boot Record)
+
+Alternatively, use TinyC
+
+
+# objcopy -O binary infile outfile
+# Will dump the raw binary from a fully linked infile to outfile discarding all headers,
+# symbol tables etc.
+# verify with objdump
+
+
+
 
 First of all, please for the love of god do not write your own drivers.
 I mean, I guess you can really. Writing drivers is probably not that bad of an idea
@@ -49,5 +67,4 @@ https://en.wikipedia.org/wiki/BIOS_parameter_block | BIOS parameter block - Wiki
 http://jdebp.info/FGA/bios-parameter-block.html | FGA: All about BIOS parameter blocks
 https://en.wikipedia.org/wiki/Volume_boot_record | Volume boot record - Wikipedia
 https://www.google.com/search?client=firefox-b-1-d&q=x86+retf | x86 retf - Google Search
-
 

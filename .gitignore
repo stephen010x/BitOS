@@ -1,0 +1,6 @@
+*.raw
+*.o
+*.bin
+*.temp
+*.tmp
+*.old
