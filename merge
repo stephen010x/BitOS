@@ -1,0 +1,4 @@
+#!/bin/bash
+#segsize=512
+#size=$(stat -c %s $1)
+#segs=$((size // segsize))

@@ -1,3 +1,3 @@
-
-put flash code here
-run it from makefile
+#!/bin/bash
+#put flash code here
+#run it from makefile

@@ -68,3 +68,48 @@ http://jdebp.info/FGA/bios-parameter-block.html | FGA: All about BIOS parameter 
 https://en.wikipedia.org/wiki/Volume_boot_record | Volume boot record - Wikipedia
 https://www.google.com/search?client=firefox-b-1-d&q=x86+retf | x86 retf - Google Search
 
+
+
+
+
+I should have my operating system support fat16 or fat32 (one of the two)
+For both the boot kernel for flash drive booters.
+Actually, not the boot kernel.
+
+How about this, I could have two parts here. The bootloader, and then the kernel itself. The bootloader is a .raw that gets flashed to the usb drive.
+And I will have two partitions. The first is my own custom filesystem for the actual kernel code and whatnot. And the second is a fat32 file system for any files the user wants to transfer to the new operating system.
+Which, in turn, my operating system should support fat32 flash drives. But the system itself is my own custom file system. Which is actually a "block" system.
+
+
+To prevent early strain, we will have two files. The boot.raw with the partitions.
+And the first partition will point to the kernal, which is in a spot that should be far enough away from the bootloader.
+
+I was thinking of having the bootloader set up the system to 64 bit, as well as setting up protected mode and creating the initial enviroment for the kernel.
+It will be documented, so that the kernel knows exactly what enviroment it starts in.
+
+For now, the second stage bootloader will just be flashed in the header like the rest of the bootloader. 
+I will just have the second stage bootloader and the kernel be in separate unformatted partitions.
+
+
+
+
+I need to create a multiplatform utility that can navigate my custom filesystem.
+It might even just be a version of the one my own OS uses. Only compiled for windows or linux rather than my OS.
+For the version on my kernel, should I make it go through the system commands in order to edit files, or should it instead be the one behind the system calls doing the managing?
+The former kind of voids the point, as it would be way simpler.
+Also I am not really sure how I am going to realistically manage the current directory if it is a simple command, so perhaps lets try a new idea,
+Instead, lets have a command line utility of my kernel itself that can be on other operating systems, but is sort of a feature stripped version.
+
+
+I need to separate the bootloader from the kernel, and give them both separate makefiles that a higher level makefile can invoke both of them.
+
+
+
+
+Here is my thinking, 
+I for sure need to make system calls ran by the process itself, utilizing it's stack.
+This way I don't have to make it so that system calls will prematurely yield a process's thread, which would make it unfair as it would get less processing time. But also I could interrupt the system call mid-process (ideally) and then resume it right after.
+Locks could be a concern here. However, it would just mean that later threads would yield their execution until the previous thread that triggered the lock releases it. So it should be fine.
+
+
+
