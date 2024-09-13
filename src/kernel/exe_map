@@ -1,0 +1,83 @@
+
+I am considering adding a table that maps out which segments to put where,
+Segments can include zeroed out segments that don't actually exist in the file
+And it includes a mapping of
+
+
+
+
+Alright, so It looks like the best way to do this is to simply write a program that converts elf files to my own custom format.
+
+
+What are some different protection flags
+Read (R)
+Write (W)
+Execute (X)
+User (U)
+Supervisor (S)
+Public (P) (can be accessed by other processes I guess? I might just replace this with memory mapped files)
+Guarded (G) (for seg faults) (can just be replaced with RWX all set to zero)
+
+So what are ones we should define for the user?
+RWXZZ
+Z for zeroing out the block or making it 0xCC
+
+
+Gpt mentioned cache suggestion bits that I might want to add, which
+honestly seems like a good idea, as the kernel will probably reference
+this header when it expands a processes memory.
+I suppose caching is a bit different than that, but I figure that
+the user program doesn't need to worry too much about caching.
+
+I won't worry about the memory expansion flags either for now, so lets make them
+reserved
+
+
+
+So here is the format: The .RUN executable format.
+
+.RUN Header [32 bytes]
+-----------------------------------
+0x00 |  4 bytes | Magic number "RUN0" or "RUN\0x01"
+0x04 |  4 bytes | Entry pointer
+0x08 |  4 bytes | Checksum
+0x0C |  2 bytes | Memory Map Table (MMT) pointer
+0x0E |  2 bytes | Number of Memory Map Entries (MME)
+0x0F | 16 bytes | Reserved
+0x10 |          | (optional) Anything after this is for compiler specific header extensions
+
+
+The Memory Map Table is a table that tells the kernel which sections of
+the file gets mapped to where in memory, as well as different memory
+protection flags.
+
+
+Memory Map Entry (MME) [8 bytes each]
+-----------------------------------
++0x0 | 3 bytes | File Block Index
++0x3 | 1 byte  | Number of blocks (up to 1MiB per entry)
++0x4 | 3 bytes | Memory Block Index
++0x7 | 1 byte  | MME Flag byte
+
+
+Note that each "block" is the kernel page size, which is typically 4096 bytes
+
+
+MME Flags (RWXZZ000)
+-----------------------------------
+0xC0 = MME_READ (R)           	(set page as readable)
+0x80 = MME_WRITE (W)          	(set page as writeable)
+0x40 = MME_EXECUTE (X)        	(set page as executable)
+0x18 = MME_MAP_TO_FILE (ZZ)    	(writes from file block index)
+0x10 = MME_MAP_TO_DEBUG (ZZ)   	(writes 0xCC to block)
+0x08 = MME_MAP_TO_ZERO (ZZ)    	(writes zeroes to block)
+0x00 = MME_MAP_TO_NOTHING (ZZ) 	(does nothing but allocate the block, default)
+0x04 = reserved
+0x02 = reserved
+0x01 = reserved
+
+
+
+Consideration,
+I could add some bits to the flag that specify it to be memory mapped.
+Although that probably isn't that good for writing to your own executable.

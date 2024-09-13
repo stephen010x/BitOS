@@ -25,7 +25,7 @@ PFLAGS :=
 # compiler flags
 CFLAGS := -masm=intel
 # linker flags
-LFLAGS :=
+LFLAGS := --oformat=binary
 # compiler AND linker flags
 BFLAGS := -Wall -Wextra -Wpedantic -Wconversion -Wundef
 

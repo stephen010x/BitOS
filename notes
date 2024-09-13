@@ -87,7 +87,7 @@ And the first partition will point to the kernal, which is in a spot that should
 I was thinking of having the bootloader set up the system to 64 bit, as well as setting up protected mode and creating the initial enviroment for the kernel.
 It will be documented, so that the kernel knows exactly what enviroment it starts in.
 
-For now, the second stage bootloader will just be flashed in the header like the rest of the bootloader. 
+For now, the second stage bootloader will just be flashed in the header like the rest of the bootloader.
 I will just have the second stage bootloader and the kernel be in separate unformatted partitions.
 
 
@@ -106,10 +106,19 @@ I need to separate the bootloader from the kernel, and give them both separate m
 
 
 
-Here is my thinking, 
+Here is my thinking,
 I for sure need to make system calls ran by the process itself, utilizing it's stack.
 This way I don't have to make it so that system calls will prematurely yield a process's thread, which would make it unfair as it would get less processing time. But also I could interrupt the system call mid-process (ideally) and then resume it right after.
 Locks could be a concern here. However, it would just mean that later threads would yield their execution until the previous thread that triggered the lock releases it. So it should be fine.
 
 
 
+An addition to my philosophy is that I should not feel obligated to create tools in order to
+use or run programs or formats that someone else besides me made.
+FOR INSTANCE, do I really need to learn how to read the elf file format?
+I should feel perfectly okay with using a library someone else made to interpret a file
+format that somebody else made.
+
+
+
+I should add a checksum value to all of my files, so that it would be easy to tell if something went wrong.
