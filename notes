@@ -122,3 +122,30 @@ format that somebody else made.
 
 
 I should add a checksum value to all of my files, so that it would be easy to tell if something went wrong.
+
+
+
+
+Alright, the console for my new kernel is going to be a friggin text editor, yeah?
+Here is how it works:
+Basically, there is a readable and writable parts of the page. You can copy anything from
+the page at all by simply highlighting and pressing ctrl+shift+c
+easy as that.
+
+And then anything on the user input will have a lot more features. It is basically a text editor. Only pressing enter will submit, so you have to press shift+enter to add a newline character.
+But you can copy, or cut text from the command line and it will actually cut it out from the text.
+
+Of course, the console is just a program that runs on the kernel, perhaps atop the kernel's native text output, which might itself be a separate program from the kernel. Or perhaps just a driver or something.
+
+Of course, selection requires a selection cursor. So I might include a cursor that can freely move about the screen with probably arrow keys. And if you type then it will bring the cursor back to maybe the end of the current input line.
+And then this cursor can also be controlled by the mouse.
+
+And then of course if I decide to add a window manager to the native OS, I can just have that be a separate program that the terminal program can run under as well.
+
+
+
+Oh, one important thing....
+
+
+ENFORCE AND UNIFY CONFIGURATION FILES YEAH?
+Good god that is the worst thing about linux, is how decentralized configurations are.

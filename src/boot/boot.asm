@@ -1,4 +1,7 @@
 
+
+#include boot.h
+
 ; consider switching to nasm for more versatile c-like macros
 ; or I could just run the C preprocessor on my assembly files
 ; yeah, that might actually be the play here.

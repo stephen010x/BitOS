@@ -5,7 +5,7 @@
 
 #include "start.h"
 
-format obj
+format COFF
 
 ; argc in register %rdi (argument counter)
 ; argv in register %rsi (argument vector)
@@ -53,6 +53,11 @@ format obj
 ; Therefore, I don't need to do it outright. But eventually I wnat to implement my
 ; .RUN executable format.
 
+; for now though, it will just be a raw binary, and I just need to awknowledge that
+; the .bss segment might not be zero and account for that in my code.
+
+
+
 section .text
 global _start
 org 0x80000000
@@ -63,3 +68,6 @@ _start:
 
 
             call main
+
+            ; main should probably never return
+lock:       jmp lock

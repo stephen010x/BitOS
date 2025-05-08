@@ -9,6 +9,7 @@ KERNPART := 128
 TARGET := bitos.raw
 BOOTLOD := boot.raw
 BINTARG := kernel.bin
+LINKPATH := src/kernel/link.ld
 
 CC := gcc
 AS := fasm
@@ -25,7 +26,7 @@ PFLAGS :=
 # compiler flags
 CFLAGS := -masm=intel
 # linker flags
-LFLAGS := --oformat=binary
+LFLAGS := --oformat=binary -T link $(LINKPATH)
 # compiler AND linker flags
 BFLAGS := -Wall -Wextra -Wpedantic -Wconversion -Wundef
 
