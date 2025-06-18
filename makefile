@@ -43,7 +43,7 @@ BOOTPATH := $(TMPDIR)/$(BOOTLOD)
 BINTPATH := $(TMPDIR)/$(BINTARG)
 
 ifneq ($(shell uname),Linux)
-    $(error This Makefile requires a Linux environment to run)
+	$(error This Makefile requires a Linux environment to run)
 endif
 
 -include $(DEPS)
@@ -83,7 +83,7 @@ _optimize:
 # merge files into target
 $(TARGPATH): $(BOOTPATH) $(BINTPATH)
 	#truncate -s 1MiB $(TARGPATH)
-    mkdir -p $(dir $@)
+	mkdir -p $(dir $@)
 	touch $@
 	dd if=$< of=$@ bs=512 seek=0
 	dd if=$< of=$@ bs=512 seek=$(KERNPART)
@@ -95,7 +95,7 @@ $(BINTPATH): $(OBJS)
 
 # assemble bootloader
 $(BOOTPATH): $(BOOTSRC)
-    mkdir -p $(dir $@)
+	mkdir -p $(dir $@)
 	$(AS) $< $@
 
 
@@ -106,9 +106,9 @@ $(TMPDIR)/$(GOAL)/%.c.o: %.c $(TMPDIR)/$(GOAL)/%.c.d
 
 $(TMPDIR)/$(GOAL)/%.s.o: %.s $(TMPDIR)/$(GOAL)/%.s.d
 	mkdir -p $(dir $@)
-    pres=$(TMPDIR)/$(GOAL)/$(patsubst %.pre.s,%.s,$<)
-    $(PP) $< -o $$pres
-    $(AS) $$pres $@
+	pres=$(TMPDIR)/$(GOAL)/$(patsubst %.pre.s,%.s,$<)
+	$(PP) $< -o $$pres
+	$(AS) $$pres $@
 
 $(TMPDIR)/$(GOAL)/%.c.d: %.c
 	mkdir -p $(dir $@)
@@ -120,25 +120,25 @@ $(TMPDIR)/$(GOAL)/%.s.d: %.s
 
 
 verbose:
-    #$(info AFLAGS:=$(AFLAGS))
-    $(info PFLAGS:=$(PFLAGS))
-    $(info CFLAGS:=$(CFLAGS))
-    $(info LFLAGS:=$(LFLAGS))
-    $(info BFLAGS:=$(BFLAGS))
-    $(info GOALSRCS:=$(GOALSRCS))
-    $(info BOOTSRC:=$(BOOTSRC))
-    $(info OBJS:=$(OBJS))
-    $(info DEPS:=$(DEPS))
-    $(info TARGPATH:=$(TARGPATH))
-    $(info BOOTPATH:=$(BOOTPATH))
-    $(info BINTPATH:=$(BINTPATH))
+	#$(info AFLAGS:=$(AFLAGS))
+	$(info PFLAGS:=$(PFLAGS))
+	$(info CFLAGS:=$(CFLAGS))
+	$(info LFLAGS:=$(LFLAGS))
+	$(info BFLAGS:=$(BFLAGS))
+	$(info GOALSRCS:=$(GOALSRCS))
+	$(info BOOTSRC:=$(BOOTSRC))
+	$(info OBJS:=$(OBJS))
+	$(info DEPS:=$(DEPS))
+	$(info TARGPATH:=$(TARGPATH))
+	$(info BOOTPATH:=$(BOOTPATH))
+	$(info BINTPATH:=$(BINTPATH))
 
 
 run:
-    bochs
+	bochs
 
 flash:
-    # to be added
+	# to be added
 
 clean:
 	\rm -f $(TMPDIR)
